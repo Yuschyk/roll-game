@@ -1,8 +1,10 @@
 import React, {FC} from "react";
-import {FooterCopyright, FooterLogotype, Wrapper} from "./styled";
+import {FooterCopyright, FooterInfo, FooterLogotype, InnerWrapper, Wrapper} from "./styled";
 
 export const Footer:FC = ():JSX.Element => (
     <Wrapper>
+        <FooterInfo>
+        <InnerWrapper>
         <FooterLogotype src="/logotype.svg" />
 
         <FooterCopyright>
@@ -10,5 +12,7 @@ export const Footer:FC = ():JSX.Element => (
             <br/>
             Вся существующая информация на сайте конфиденциальна.
         </FooterCopyright>
+        </InnerWrapper>
+        </FooterInfo>
     </Wrapper>
-)
+);

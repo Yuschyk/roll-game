@@ -25,5 +25,24 @@ export const UserName = styled.div`
 `;
 
 export const BalanceWrapper = styled.div`
-  
+  display: flex;
+  gap: 12px;
+  align-items: center;
+`;
+
+export const BalanceValue = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #79FFA7;
+`;
+
+export const BalanceAction = styled.button`
+  font-weight: 400;
+  font-size: 14px;
+  color: rgba(87, 87, 87, 1);
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
 `;

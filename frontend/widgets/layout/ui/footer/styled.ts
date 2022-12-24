@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import {ContentWrapper} from "../../../../shared/styled";
 
 
 export const Wrapper = styled.div`
@@ -6,6 +7,17 @@ export const Wrapper = styled.div`
   width: 100%;
   padding: 19px 0 17px 0;
   background: rgba(35, 35, 35, 0.71);
+`;
+
+export const FooterInfo = styled(ContentWrapper)`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+export const InnerWrapper = styled.div`
+  max-width: 1200px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
