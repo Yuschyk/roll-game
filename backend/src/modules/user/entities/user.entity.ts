@@ -1,5 +1,6 @@
 import { BaseEntity } from "../../../shared/base.entity";
 import { Column, Entity } from "typeorm";
+import { Role } from "../enums/role.enum";
 
 @Entity("User")
 export class UserEntity extends  BaseEntity{
@@ -14,4 +15,11 @@ export class UserEntity extends  BaseEntity{
 
   @Column({ default: 0})
   balance: number;
+
+  @Column({
+    type: "enum",
+    enum: Role,
+    default: Role.User
+  })
+  role: Role;
 }
