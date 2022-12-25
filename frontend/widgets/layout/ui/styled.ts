@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import {ContentWrapper} from "../../../shared/styled";
 
 export const Wrapper = styled.div`
   max-width: 100%;
@@ -9,6 +10,11 @@ export const Wrapper = styled.div`
   flex-direction: column;
 `;
 
-export const Content = styled.div`
+export const Content = styled(ContentWrapper)`
+  padding-top: 22px;
+  padding-bottom: 46px;
   flex: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
 `;
