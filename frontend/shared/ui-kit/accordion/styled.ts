@@ -1,5 +1,7 @@
-import styled from "@emotion/styled";
-import {TIsOpenAccordion} from "./types";
+import styled from '@emotion/styled';
+import AutoHeight from 'react-auto-height';
+
+import { TIsOpenAccordion } from './types';
 
 
 export const Wrapper = styled.div`
@@ -16,8 +18,24 @@ export const AccordionHeader = styled.div<TIsOpenAccordion>`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 25px;
 `;
 
-export const AccordionBody = styled.div<TIsOpenAccordion>`
-    padding: 16px 20px;
+export const AccordionLabel = styled.span`
+  font-weight: 500;
+  font-size: 16px;
+  color: #FFFFFF;
 `;
+
+export const AccordionBody = styled(AutoHeight)<TIsOpenAccordion>`
+  background-color: #1C1C1C;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: 1s;
+  overflow: hidden;
+  padding: 16px 20px;
+  color: #C8C8C8;
+  font-weight: 400;
+  font-size: 16px;
+`;
+

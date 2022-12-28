@@ -1,27 +1,37 @@
-import React, {FC, useState} from "react";
-import {AccordionBody, AccordionHeader, Wrapper} from "./styled";
-import {TAccordionProps} from "./types";
-import {Arrow} from "./Arrow";
+import React, { FC, useState } from 'react';
 
-export const Accordion:FC<TAccordionProps> = ({ label, initialIsOpen= false, children }):JSX.Element => {
-    const [isOpen, setIsOpen] = useState(initialIsOpen);
+import { Arrow } from './Arrow';
+import { AccordionBody, AccordionHeader, AccordionLabel, Wrapper } from './styled';
+import { TAccordionProps } from './types';
 
-    const toggleOpening = () => {
-        setIsOpen(!isOpen);
-    }
 
-    return(
-        <Wrapper>
-            <AccordionHeader
-                isOpen={isOpen}
-                onClick={toggleOpening}>
-                <Arrow/>
-            </AccordionHeader>
-            <AccordionBody
-                isOpen={isOpen}
-            >
-                asd
-            </AccordionBody>
-        </Wrapper>
-    )
-}
+export const Accordion:FC<TAccordionProps> = ({ label, initialIsOpen = false, children }):JSX.Element => {
+  const [isOpen, setIsOpen] = useState(initialIsOpen);
+
+  const toggleOpening = () => {
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <Wrapper>
+      <AccordionHeader
+        isOpen={isOpen}
+        onClick={toggleOpening}
+      >
+        <AccordionLabel>
+          {label}
+        </AccordionLabel>
+        <Arrow isOpen={isOpen} />
+      </AccordionHeader>
+      {
+        isOpen && (
+          <AccordionBody
+            isOpen={isOpen}
+          >
+            {children}
+          </AccordionBody>
+        )
+      }
+    </Wrapper>
+  );
+};

@@ -2,7 +2,7 @@ import React from "react";
 
 export type TAccordionProps = {
     label: string;
-    children: React.ReactNode;
+    children: JSX.Element;
     initialIsOpen?: boolean;
 }
 

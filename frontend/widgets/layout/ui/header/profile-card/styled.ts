@@ -28,6 +28,7 @@ export const BalanceWrapper = styled.div`
   display: flex;
   gap: 12px;
   align-items: center;
+  margin-bottom: 11px;
 `;
 
 export const BalanceValue = styled.div`
@@ -46,3 +47,39 @@ export const BalanceAction = styled.button`
   background-color: transparent;
   cursor: pointer;
 `;
+
+export const LevelWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+`;
+
+export const LevelValue = styled.div`
+  font-size: 14px;
+  color: #FFFFFF;
+`;
+
+export const LevelUnit = styled.span`
+  font-size: 14px;
+  color: #95999F;
+`
+
+export const LevelProgressLine = styled.progress`
+  max-width: 210px;
+  width: 100%;
+  height: 8px;
+  border-radius: 54px;
+
+  &[value]::-webkit-progress-bar{
+    border-radius: 54px;
+    background-color: #2C2C2C;
+  }
+
+  &[value]::-webkit-progress-value{
+    border-radius: 54px;
+    background-color: #C4364E;
+    box-shadow: 0 0 19px rgba(196, 54, 78, 0.34);
+  }
+`;
+
+

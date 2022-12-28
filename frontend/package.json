@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint-fix": "next lint --fix",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -24,8 +25,9 @@
     "effector-react": "^22.3.4",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.4",
-    "next": "13.0.4",
+    "next": "13.1.1",
     "react": "18.2.0",
+    "react-auto-height": "^1.1.6",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.40.0",
     "sass": "^1.57.1",
@@ -43,6 +45,17 @@
     "@storybook/react": "^6.5.15",
     "@storybook/testing-library": "^0.0.13",
     "babel-loader": "^8.3.0",
-    "eslint-plugin-storybook": "^0.6.8"
+    "eslint-plugin-storybook": "0.6.8",
+    "eslint-config-airbnb": "19.0.4",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-babel": "5.3.1",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-jest": "27.1.7",
+    "eslint-plugin-jsx-a11y": "6.6.1",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-react": "7.31.11",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "@typescript-eslint/eslint-plugin": "5.47.1",
+    "@typescript-eslint/parser": "5.47.1"
   }
 }

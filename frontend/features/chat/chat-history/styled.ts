@@ -8,7 +8,6 @@ export const Wrapper = styled.div`
   border-radius: 5px;
   overflow: auto;
   
-
   &:before {
     position: absolute;
     max-width: 100%;

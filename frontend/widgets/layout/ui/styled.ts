@@ -1,5 +1,7 @@
-import styled from "@emotion/styled";
-import {ContentWrapper} from "../../../shared/styled";
+import styled from '@emotion/styled';
+
+import { ContentWrapper } from '../../../shared/styled';
+
 
 export const Wrapper = styled.div`
   max-width: 100%;
@@ -17,4 +19,9 @@ export const Content = styled(ContentWrapper)`
   display: flex;
   align-items: flex-start;
   gap: 20px;
+`;
+
+export const ChildrenWrapper = styled.div`
+  max-width: 100%;
+  width: 100%;
 `;
