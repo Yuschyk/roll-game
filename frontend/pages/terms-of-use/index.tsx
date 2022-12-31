@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Layout } from '../../widgets/layout';
+import { Layout } from '../../src/widgets/layout';
 import { Content, TermsLabel, TermsText, Wrapper } from './styled';
 
 

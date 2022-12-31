@@ -1,40 +1,115 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { CreateUserDto } from './dto/create-user.dto';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { InjectRepository } from "@nestjs/typeorm";
-import { UserEntity } from "./entities/user.entity";
-import { Repository } from "typeorm";
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserEntity } from './entities/user.entity';
+import { Repository } from 'typeorm';
+import { FilesService } from '../files/files.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>
+    private readonly userRepository: Repository<UserEntity>,
+    private readonly filesService: FilesService,
   ) {}
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
-  }
 
-  findAll() {
-    return `This action returns all user`;
-  }
+  async getUserById(id: number) {
+    const user = await this.userRepository.findOne({
+      where: {
+        id,
+      },
+    });
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return user;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const currentUser = await this.userRepository.findOneBy({
       email: updateUserDto.email,
     });
-    if (!currentUser){
-      throw new NotFoundException("User is not found");
+    if (!currentUser) {
+      throw new NotFoundException('User is not found');
     }
-
-
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async addAvatar(userId: number, imageBuffer: Buffer, filename: string) {
+    const avatar = await this.filesService.uploadPublicFile(
+      imageBuffer,
+      filename,
+    );
+
+    const user = await this.getUserById(userId);
+    await this.userRepository.update(userId, {
+      ...user,
+      avatar,
+    });
+    return avatar;
+  }
+
+  async deleteAvatar(userId: number) {
+    const user = await this.getUserById(userId);
+    const fileId = user.avatar?.id;
+
+    if (!fileId) {
+      throw new NotFoundException('User avatar is not found');
+    }
+
+    await this.userRepository.update(userId, {
+      ...user,
+      avatar: null,
+    });
+
+    await this.filesService.deleteFile(user.avatar?.id);
+  }
+
+  async addPrivateFile(
+    userId: number,
+    imageBuffer: Buffer,
+    filename: string,
+    fileType: string,
+  ) {
+    return this.filesService.uploadPrivateFile(
+      userId,
+      imageBuffer,
+      filename,
+      fileType,
+    );
+  }
+
+  async getPrivateFile(userId: number, fileId: number) {
+    const file = await this.filesService.getPrivateFile(fileId);
+    if (file.info.owner.id === userId) {
+      return file;
+    }
+    throw new UnauthorizedException();
+  }
+
+  async getAllPrivateFiles(userId: number) {
+    const userWithFiles = await this.userRepository.findOne({
+      where: {
+        id: userId,
+      },
+      relations: ['files'],
+    });
+    if (userWithFiles) {
+      return Promise.all(
+        userWithFiles.files.map(async (file) => {
+          const url = await this.filesService.generatePresignedUrl(file.key);
+          return {
+            ...file,
+            url,
+          };
+        }),
+      );
+    }
+    throw new NotFoundException('User with this id does not exist');
   }
 }

@@ -1,9 +1,8 @@
+import { Register } from '@pages';
 import { NextPage } from 'next';
 
-import { Register } from '../app/pages/Register';
 
-
-const RegisterPage:NextPage = () => (
+const RegisterPage:NextPage = ():JSX.Element => (
   <Register />
 );
 

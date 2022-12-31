@@ -1,25 +1,39 @@
-import { BaseEntity } from "../../../shared/base.entity";
-import { Column, Entity } from "typeorm";
-import { Role } from "../enums/role.enum";
+import { BaseEntity } from '../../../shared/base.entity';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import { Role } from '../enums/role.enum';
+import {
+  PrivateFileEntity,
+  PublicFileEntity,
+} from '../../files/entities/file.entity';
 
-@Entity("User")
-export class UserEntity extends  BaseEntity{
-  @Column({unique: true})
+@Entity('User')
+export class UserEntity extends BaseEntity {
+  @Column({ unique: true })
   email: string;
 
   @Column({ select: false })
   password: string;
 
-  @Column({ default: "" })
-  name: string;
+  @Column({ default: '' })
+  username: string;
 
-  @Column({ default: 0})
+  @Column({ default: 0 })
   balance: number;
 
   @Column({
-    type: "enum",
+    type: 'enum',
     enum: Role,
-    default: Role.User
+    default: Role.User,
   })
   role: Role;
+
+  @JoinColumn()
+  @OneToOne(() => PublicFileEntity, {
+    eager: true,
+    nullable: true,
+  })
+  public avatar?: PublicFileEntity;
+
+  @OneToMany(() => PrivateFileEntity, (file) => file.owner)
+  files: PrivateFileEntity[];
 }

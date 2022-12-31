@@ -1,10 +1,12 @@
-import React, { FC } from 'react';
+import React from 'react';
 
-import { Accordion } from '../../shared/ui-kit';
-import { Layout } from '../../widgets/layout';
+import { Layout } from '@widgets';
+import { NextPage } from 'next';
+
+import { Accordion } from '../../src/shared/ui-kit';
 
 
-const Faq:FC = ():JSX.Element => (
+const Faq:NextPage = ():JSX.Element => (
   <Layout>
     <Accordion
       label="test"

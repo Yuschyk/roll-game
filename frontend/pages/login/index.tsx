@@ -1,9 +1,8 @@
+import { Login } from '@pages';
 import { NextPage } from 'next';
 
-import { Login } from '../../app/pages/Login';
 
-
-const LoginPage:NextPage = () => (
+const LoginPage:NextPage = ():JSX.Element => (
   <Login />
 );
 

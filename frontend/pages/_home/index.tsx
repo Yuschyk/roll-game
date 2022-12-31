@@ -1,12 +1,14 @@
-import React, { FC } from 'react';
+import React from 'react';
 
-import { Layout } from '../../widgets/layout';
+import { Layout } from '@widgets';
+import { NextPage } from 'next';
+
 import { BettingPanel } from './betting-panel';
 import { PreviousRolls } from './previous-rolls';
 import { Roulette } from './roulette';
 
 
-const Home:FC = ():JSX.Element => (
+const Home:NextPage = ():JSX.Element => (
   <Layout>
     <Roulette />
     <PreviousRolls />

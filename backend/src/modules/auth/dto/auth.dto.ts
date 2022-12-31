@@ -21,6 +21,6 @@ export class RegisterDto {
   password: string;
 
   @ApiProperty()
-  @MinLength(2, { message: "Name must be at least 8 characters long" })
-  name: string;
+  @MinLength(2, { message: 'Name must be at least 8 characters long' })
+  username: string;
 }

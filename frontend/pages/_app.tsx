@@ -1,11 +1,24 @@
-import '../styles/globals.css';
+import '../src/app/styles/globals.css';
+import React from 'react';
+
 import { Inter } from '@next/font/google';
 import type { AppProps } from 'next/app';
-import '../app/global.scss';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+
+import { AuthProvider } from '../src/providers/AuthProvider';
 
 
 const inter = Inter();
 export default function App({ Component, pageProps }: AppProps) {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  });
+
   return (
     <>
       <style jsx global>
@@ -15,7 +28,12 @@ export default function App({ Component, pageProps }: AppProps) {
         }
       `}
       </style>
-      <Component {...pageProps} />
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <Component {...pageProps} />
+        </AuthProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </>
   );
 }
