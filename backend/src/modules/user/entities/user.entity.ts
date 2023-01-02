@@ -36,4 +36,9 @@ export class UserEntity extends BaseEntity {
 
   @OneToMany(() => PrivateFileEntity, (file) => file.owner)
   files: PrivateFileEntity[];
+
+  @Column({
+    nullable: true,
+  })
+  public stripeCustomerId: string;
 }

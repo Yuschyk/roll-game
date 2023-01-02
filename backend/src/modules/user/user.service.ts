@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -8,6 +9,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { FilesService } from '../files/files.service';
+import { StripeService } from '../stripe/stripe.service';
+import { RegisterDto } from '../auth/dto/auth.dto';
 
 @Injectable()
 export class UserService {
@@ -15,8 +18,34 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     private readonly filesService: FilesService,
+
+    private readonly stripeService: StripeService,
   ) {}
 
+  async createUser(userData: RegisterDto) {
+    const alreadyCreatedUser = await this.userRepository.findOneBy({
+      email: userData.email,
+    });
+
+    if (alreadyCreatedUser) {
+      throw new BadRequestException('Email already registered');
+    }
+
+    const stripeCustomer = await this.stripeService.createCustomer(
+      userData.username,
+      userData.email,
+    );
+
+    const createdUser = await this.userRepository.create({
+      email: userData.email,
+      password: userData.password,
+      username: userData.username,
+      stripeCustomerId: stripeCustomer.id,
+    });
+
+    const user = await this.userRepository.save(createdUser);
+    return user;
+  }
   async getUserById(id: number) {
     const user = await this.userRepository.findOne({
       where: {

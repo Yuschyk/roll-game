@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -10,12 +9,20 @@ import { JwtService } from '@nestjs/jwt';
 import { UserEntity } from '../user/entities/user.entity';
 import { AuthDto, RegisterDto } from './dto/auth.dto';
 import { compare, genSalt, hash } from 'bcryptjs';
+import { UserService } from '../user/user.service';
+import TokenPayload from './token-payload';
+import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+
+    private readonly configService: ConfigService,
+
     private readonly jwtService: JwtService,
+
+    private readonly userService: UserService,
   ) {}
 
   async login(loginData: AuthDto) {
@@ -29,26 +36,16 @@ export class AuthService {
   }
 
   async register(registerData: RegisterDto) {
-    const alreadyCreatedUser = await this.userRepository.findOneBy({
-      email: registerData.email,
-    });
-    if (alreadyCreatedUser) {
-      throw new BadRequestException('Email already registered');
-    }
-
     const salt = await genSalt(10);
 
-    const createdUser = await this.userRepository.create({
-      email: registerData.email,
+    const createdUser = await this.userService.createUser({
+      ...registerData,
       password: await hash(registerData.password, salt),
-      username: registerData.username,
     });
 
-    const user = await this.userRepository.save(createdUser);
-
     return {
-      user: this.returnUserFields(user),
-      token: await this.issueToken(user.id),
+      user: this.returnUserFields(createdUser),
+      token: await this.issueToken(createdUser.id),
     };
   }
 
@@ -71,6 +68,15 @@ export class AuthService {
       id: userId,
     };
     return await this.jwtService.sign(payload, { expiresIn: '30d' });
+  }
+
+  public async getUserFromAuthenticationToken(token: string) {
+    const payload: TokenPayload = this.jwtService.verify(token, {
+      secret: this.configService.get('JWT_SECRET'),
+    });
+    if (payload.userId) {
+      return this.userService.getUserById(payload.userId);
+    }
   }
 
   returnUserFields(user: UserEntity) {
