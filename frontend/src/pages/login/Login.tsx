@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
-import { LoginForm } from '../../features';
+import { LoginForm } from '@features';
+
 import { PageWrapper } from './styled';
 
 

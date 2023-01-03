@@ -1,11 +1,12 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useState } from 'react';
 
-import Router from 'next/router';
 import { useCookies } from 'react-cookie';
 import { useQuery } from 'react-query';
 
+import { useUserActions } from '../entities';
 import { userApi } from '../entities/user/model/api';
 import { ACCESS_TOKEN } from '../shared/lib';
+import { Loader } from '../shared/ui-kit';
 
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -13,25 +14,23 @@ import { ACCESS_TOKEN } from '../shared/lib';
 // eslint-disable-next-line react/function-component-definition
 export const AuthProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
   const [cookies] = useCookies([ACCESS_TOKEN]);
-  // const stateContext = useStateContext();
+  const { setUser } = useUserActions();
+  const [isLoading, setLoading] = useState(true);
 
   const query = useQuery([ACCESS_TOKEN], () => userApi.getProfile(), {
-    enabled: !!cookies[ACCESS_TOKEN],
     select: (data) => data,
     onSuccess: (data) => {
-      console.log(data);
-      if (!data) {
-        Router.push('/login');
-      }
-      // stateContext.dispatch({ type: 'SET_USER', payload: data });
+      setUser(data);
+      setLoading(false);
+    },
+    onError: () => {
+      setLoading(false);
     },
   });
 
-  if (query.isLoading && cookies[ACCESS_TOKEN]) {
+  if (isLoading) {
     return (
-      <div>
-        <h2 style={{ fontSize: '60px' }}>LOADING</h2>
-      </div>
+      <Loader />
     );
   }
 

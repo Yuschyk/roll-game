@@ -1,6 +1,10 @@
 import React, { FC } from 'react';
 
+import { LoaderIcon, LoaderWrapper } from './styled';
+
 
 export const Loader:FC = ():JSX.Element => (
-  <div>123</div>
+  <LoaderWrapper>
+    <LoaderIcon src="/loaderIcon.svg" />
+  </LoaderWrapper>
 );

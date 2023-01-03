@@ -2,15 +2,39 @@ import create from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 
+export type TUser = {
+    id: number;
+    createdAt: string;
+    updatedAt: string;
+    email: string;
+    username: string;
+    balance: number;
+    role: 'User';
+    stripeCustomerId: string;
+}
+
 export type UserStore = {
-    user: any;
+    user: TUser | null;
+    actions: UserActions;
 }
 
-type UserActions = {
-    setUser: (user:any) => void;
+export type UserActions = {
+    setUser: (user: TUser) => void;
 }
 
-const useUserStore = create<UserStore & UserActions>((set) => ({
+
+const useUserStore = create<UserStore>()(devtools((set) => ({
   user: null,
-  setUser: (user:any) => set(() => ({ user })),
-}));
+  actions: {
+    setUser: (user:TUser) => set(() => ({ user })),
+  },
+})));
+
+
+export const useUser = () => (
+  useUserStore((state) => state.user)
+);
+export const useUserActions = () => (
+  useUserStore((state) => state.actions)
+);
+
