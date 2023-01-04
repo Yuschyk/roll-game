@@ -1,8 +1,9 @@
-import React from "react";
+import React from 'react';
+
 
 export type TAccordionProps = {
     label: string;
-    children: JSX.Element;
+    children: React.ReactNode;
     initialIsOpen?: boolean;
 }
 
