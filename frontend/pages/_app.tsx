@@ -51,7 +51,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
             {
               getLayout(<Component {...pageProps} />)
             }
-            <Component {...pageProps} />
           </AuthProvider>
           <Notification />
           <ReactQueryDevtools initialIsOpen={false} />

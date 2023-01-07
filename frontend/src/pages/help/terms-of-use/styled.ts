@@ -12,6 +12,10 @@ export const Wrapper = styled.div`
 export const Content = styled.div`
   max-width: 100%;
   width: 100%;
+
+  ol { counter-reset: item }
+  li{ display: block }
+  li:before { content: counters(item, ".") " "; counter-increment: item }
 `;
 
 export const TermsLabel = styled.div`
